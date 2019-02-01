@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Files>
+</Files>
+<Assets>
+	<!-- Texture Asset -->	
+	<Asset>Assets/Raindrop.png</Asset>
+	
+	<!-- Prefab Example!! -->	
+	<Asset>Assets/RaindropPrefab.xml</Asset>
+</Assets>
+<GameObjects>
+	<GameObject uuid="dd5c236c-5ab3-4632-82e1-a2a6175f2b45" name="RainDropFactory">
+		<Components>
+			<Component class="RainDropFactory">
+				<PrefabAsset>9930f483-8b0b-4d7e-ae1f-c55f641000ac</PrefabAsset>
+				<SpawnDelay value="1" />
+			</Component>
+		</Components>
+	</GameObject>
+</GameObjects>
