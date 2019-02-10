@@ -4,11 +4,28 @@
 <Assets>
 	<!-- Texture Asset -->	
 	<Asset>Assets/Raindrop.png</Asset>
+	<Asset>Assets/background_image.png</Asset>
 	
 	<!-- Prefab Example!! -->	
 	<Asset>Assets/RaindropPrefab.xml</Asset>
 </Assets>
 <GameObjects>
+
+	<!--
+	<GameObject uuid="7f95b98e-d0ad-4f26-a885-db6121ef0a67" name="Background">
+		<Components>
+			<Component class="Transform">
+				<Position x="400" y="-300"/>
+				<Rotation a="0"/>
+				<Scale x="0.5" y="0.5"/>
+			</Component>	
+			<Component class="Background">
+				<TextureUID uuid="346d0a29-0588-4837-92bd-fd08f65fedb7" />
+			</Component>	
+		</Components>
+	</GameObject>
+	-->
+
 	<GameObject uuid="dd5c236c-5ab3-4632-82e1-a2a6175f2b45" name="RainDropFactory">
 		<Components>
 			<Component class="RainDropFactory">
@@ -17,4 +34,5 @@
 			</Component>
 		</Components>
 	</GameObject>
+
 </GameObjects>
