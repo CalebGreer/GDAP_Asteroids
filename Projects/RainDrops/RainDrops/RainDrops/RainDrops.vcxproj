@@ -153,11 +153,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Background.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RainDrop.cpp" />
     <ClCompile Include="RainDropFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h" />
     <ClInclude Include="GameCore.h" />
     <ClInclude Include="RainDrop.h" />
     <ClInclude Include="RainDropFactory.h" />
