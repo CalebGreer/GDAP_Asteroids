@@ -35,9 +35,15 @@ void RainDrop::update(float deltaTime)
 {
     Component::update(deltaTime);
 
+    if (NetworkClient::Instance().isClient() == true)
+    {
+        return;
+    }
+
     if (gameObject->getTransform()->getPosition().y < 50)
     {
         gameObject->getTransform()->move(speed.x * deltaTime, speed.y * deltaTime);
+        gameObject->getTransform()->sendPositionPacket();
     }
     else
     {

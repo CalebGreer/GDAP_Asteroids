@@ -16,7 +16,10 @@ enum NetworkPacketIds
     ID_GAMEOBJECT_DESTROY,
 
 	// USER or GAME PACKETS
-	ID_GAME_PACKET_ENUM
+	ID_GAME_PACKET_ENUM,
+
+    // Raindrop Factory
+    ID_SPAWN
 };
 
 #endif

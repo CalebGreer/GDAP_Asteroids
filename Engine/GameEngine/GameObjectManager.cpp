@@ -173,6 +173,16 @@ const std::list<GameObject*>& GameObjectManager::GetAllRootGameObjects()
 
 void GameObjectManager::DestroyGameObject(GameObject* go)
 {
+    if (NetworkServer::Instance().isServer())
+    {
+        // Write the code to destroy the raindrop
+        RakNet::BitStream bs;
+        bs.Write((unsigned char)ID_GAMEOBJECT);
+        bs.Write((unsigned char)ID_GAMEOBJECT_DESTROY);
+        bs.Write(go->getUID());
+        NetworkServer::Instance().sendPacket(bs);
+    }
+
 	destroyGameObjects.push_back(go);
 }
 

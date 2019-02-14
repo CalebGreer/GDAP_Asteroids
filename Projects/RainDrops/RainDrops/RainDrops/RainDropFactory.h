@@ -14,6 +14,10 @@ class RainDropFactory : public Component
 public:
 	virtual void update(float deltaTime);
 	virtual void load(XMLElement* element);
+    virtual void processPacket(RakNet::BitStream& bs) override;
+
+private:
+    void writePacket(GameObject* go);
 
 private:
 	bool enabled = true;
