@@ -12,6 +12,9 @@ public:
 	virtual void update(float deltaTime) override;
 	virtual void load(XMLElement* element) override;
 
+    const sf::Vector2f& getSpeed() const { return speed; }
+    void setSpeed(const sf::Vector2f& _speed) { speed = _speed; }
+
 private:
 	sf::Vector2f speed;
 	sf::Vector2f minSpeed;

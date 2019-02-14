@@ -37,6 +37,9 @@ public:
 		TRANSFORM_POSITION,
 	};
 
+    void sendPositionPacket();
+    void processPacket(RakNet::BitStream& bs) override;
+
 	sf::Transformable& getTransformAble() { return _transform; }
 	const sf::Transform& getTransform() { return _transform.getTransform(); }
 
