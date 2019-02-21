@@ -61,6 +61,11 @@ void GameEngine::GameLoop()
 			gameUpdate(deltaTime);
 		}
 
+        if (NetworkServer::Instance().isServer())
+        {
+            GameObjectManager::Instance().networkUpdate(deltaTime);
+        }
+
 		RenderSystem::Instance().update(deltaTime);
 
 		_time = clock() - _time;

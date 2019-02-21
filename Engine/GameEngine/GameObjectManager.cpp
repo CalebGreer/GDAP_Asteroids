@@ -216,6 +216,23 @@ void GameObjectManager::update(float deltaTime)
 	destroyGameObjects.clear();
 }
 
+
+void GameObjectManager::networkUpdate(float deltaTime)
+{
+    RakNet::BitStream bs;
+    for (auto iter : rootGameObjects)
+    {
+        bs.Write((unsigned char)ID_GAMEOBJECT);
+        bs.Write((unsigned char)ID_GAMEOBJECT_UPDATE);
+        bs.Write((*iter).getUID());
+        (*iter).writeUpdate(bs);
+
+        NetworkServer::Instance().sendPacket(bs);
+
+        bs.Reset();
+    }
+}
+
 // Networking
 void GameObjectManager::processPacket(RakNet::BitStream& bitStream)
 {
@@ -237,23 +254,38 @@ void GameObjectManager::processPacket(RakNet::BitStream& bitStream)
 			}
 			break;
 
-		case NetworkPacketIds::ID_GAMEOBJECT_COMPONENT:
-			{
-				STRCODE goID;
-				bitStream.Read(goID);
+        case NetworkPacketIds::ID_GAMEOBJECT_UPDATE:
+            {
+                STRCODE goID;
+                bitStream.Read(goID);
+                GameObject* gameObject = FindGameObject(goID);
+                if (gameObject != nullptr)
+                {
+                    gameObject->readUpdate(bitStream);
+                }
+            }
+            break;
 
-				GameObject* gameObject = FindGameObject(goID);
-				if (gameObject != nullptr)
-				{
-					STRCODE componentID;
-					bitStream.Read(componentID);
-					Component* component = gameObject->GetComponentByUUID(componentID);
-					if (component != nullptr)
-					{
-						component->processPacket(bitStream);
-					}
-				}
-			}
-			break;
+        // Removed because we do a write/read in the components through
+        // the GameObjectManager and GameObject
+
+		//case NetworkPacketIds::ID_GAMEOBJECT_COMPONENT:
+		//	{
+		//		STRCODE goID;
+		//		bitStream.Read(goID);
+
+		//		GameObject* gameObject = FindGameObject(goID);
+		//		if (gameObject != nullptr)
+		//		{
+		//			STRCODE componentID;
+		//			bitStream.Read(componentID);
+		//			Component* component = gameObject->GetComponentByUUID(componentID);
+		//			if (component != nullptr)
+		//			{
+		//				component->processPacket(bitStream);
+		//			}
+		//		}
+		//	}
+		//	break;
 	}
 }
