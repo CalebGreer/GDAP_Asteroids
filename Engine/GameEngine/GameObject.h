@@ -3,12 +3,13 @@
 #pragma once
 
 #include "Object.h"
+#include "ISerializable.h"
 
 class Component;
 class Transform;
 class GameObjectManager;
 
-class GameObject final : public Object
+class GameObject final : public Object, public ISerializable
 {
 	friend class GameObjectManager;
 
@@ -67,6 +68,10 @@ public:
 	void AddChild(GameObject*);
 	void RemoveChild(GameObject*);
 	GameObject* getChildByName(std::string name);
+
+private:
+    virtual void writeUpdate(RakNet::BitStream & bs) const override;
+    virtual void readUpdate(RakNet::BitStream & bs) override;
 
 };
 

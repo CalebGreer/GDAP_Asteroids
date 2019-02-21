@@ -173,6 +173,34 @@ GameObject* GameObject::getChildByName(std::string name)
 	return nullptr;
 }
 
+void GameObject::writeUpdate(RakNet::BitStream & bs) const
+{
+    bs.Write((unsigned int)components.size());
+    for (auto iter : components)
+    {
+        bs.Write(iter.first);
+        iter.second->writeUpdate(bs);
+    }
+}
+
+void GameObject::readUpdate(RakNet::BitStream & bs)
+{
+    unsigned int numComponents = -1;
+    bs.Read(numComponents);
+
+    for (int i = 0; i < numComponents; i++)
+    {
+        STRCODE compHash;
+        bs.Read(compHash);
+
+        auto component = components.find(compHash);
+        if (component != components.end())
+        {
+            (*component).second->readUpdate(bs);
+        }
+    }
+}
+
 void GameObject::OnCollisionEnter(GameObject* collision)
 {
 }

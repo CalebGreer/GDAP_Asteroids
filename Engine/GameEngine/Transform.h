@@ -37,8 +37,8 @@ public:
 		TRANSFORM_POSITION,
 	};
 
-    void sendPositionPacket();
-    void processPacket(RakNet::BitStream& bs) override;
+    virtual void writeUpdate(RakNet::BitStream & bs) const override;
+    virtual void readUpdate(RakNet::BitStream & bs) override;
 
 	sf::Transformable& getTransformAble() { return _transform; }
 	const sf::Transform& getTransform() { return _transform.getTransform(); }
@@ -149,7 +149,7 @@ public:
 	/**
 	* Returns world position
 	*/
-	sf::Vector2f getPosition();
+	sf::Vector2f getPosition() const;
 
 	/**
 	* Returns local position of this Transform.

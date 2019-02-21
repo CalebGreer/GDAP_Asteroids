@@ -55,6 +55,8 @@ private:
 	void _update(float deltaTime, GameObject* gameObject);
 	GameObject* _FindGameObject(GameObject* parent, STRCODE id);
 
+    void networkUpdate(float deltaTime);
+
 private:
 	GameObjectManager() = default;
 	~GameObjectManager() = default;

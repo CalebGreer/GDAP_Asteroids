@@ -201,6 +201,7 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="CRtti.h" />
     <ClInclude Include="FontAsset.h" />
+    <ClInclude Include="ISerializable.h" />
     <ClInclude Include="LuaState.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="FileSystem.h" />

@@ -43,7 +43,6 @@ void RainDrop::update(float deltaTime)
     if (gameObject->getTransform()->getPosition().y < 50)
     {
         gameObject->getTransform()->move(speed.x * deltaTime, speed.y * deltaTime);
-        gameObject->getTransform()->sendPositionPacket();
     }
     else
     {

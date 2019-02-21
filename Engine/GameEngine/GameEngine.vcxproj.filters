@@ -185,5 +185,8 @@
     <ClInclude Include="NetworkCommon.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="ISerializable.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

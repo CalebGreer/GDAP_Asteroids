@@ -166,7 +166,7 @@ sf::Vector2f Transform::getRight()
 	return right;
 }
 
- sf::Vector2f Transform::getPosition()
+ sf::Vector2f Transform::getPosition() const 
 {
 	return _transform.getPosition();
 }
@@ -285,37 +285,17 @@ sf::Vector2f normalizeVector(sf::Vector2f vector)
 }
 
 // Networking
-void Transform::sendPositionPacket()
+void Transform::writeUpdate(RakNet::BitStream& bs) const
 {
-    RakNet::BitStream bs;
-
-    bs.Write((unsigned char)ID_GAMEOBJECT);
-    bs.Write((unsigned char)ID_GAMEOBJECT_COMPONENT);
-    bs.Write(gameObject->getUID());
-    bs.Write(Transform::getClassHashCode());
-
-    bs.Write((unsigned char)TRANSFORM_POSITION);
     bs.Write(getPosition().x);
     bs.Write(getPosition().y);
-
-    NetworkServer::Instance().sendPacket(bs);
 }
 
-void Transform::processPacket(RakNet::BitStream& bs)
+void Transform::readUpdate(RakNet::BitStream & bs)
 {
-    unsigned char command = -1;
-    bs.Read(command);
+    sf::Vector2f _position;
+    bs.Read(_position.x);
+    bs.Read(_position.y);
 
-    switch (command)
-    {
-        case TRANSFORM_POSITION:
-        {
-            sf::Vector2f _position;
-            bs.Read(_position.x);
-            bs.Read(_position.y);
-
-            setPosition(_position);
-        }
-        break;
-    }
+    setPosition(_position);
 }
