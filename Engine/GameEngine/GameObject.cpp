@@ -173,6 +173,39 @@ GameObject* GameObject::getChildByName(std::string name)
 	return nullptr;
 }
 
+void GameObject::writeCreate(RakNet::BitStream& bs) const
+{
+    bs.Write(UID);
+    bs.Write((unsigned int)components.size());
+    for (auto iter : components)
+    {
+        bs.Write(iter.first);
+        iter.second->writeCreate(bs);
+    }
+}
+
+void GameObject::readCreate(RakNet::BitStream& bs)
+{
+    // Read the UID
+    bs.Read(UID);
+
+    // Read component map size
+    unsigned int compSize = -1;
+    bs.Read(compSize);
+
+    for (unsigned int i = 0; i < compSize; i++)
+    {
+        STRCODE compHash = NoName;
+        bs.Read(compHash);
+
+        Component* component((Component*)CRtti::constructObject(compHash));
+        component->setGameObject(this);
+        component->readCreate(bs);
+        component->initialize();
+        AddComponent(component);
+    }
+}
+
 void GameObject::writeUpdate(RakNet::BitStream & bs) const
 {
     bs.Write((unsigned int)components.size());

@@ -22,63 +22,6 @@ void RainDropFactory::load(XMLElement* element)
     spawnDelay = spawnDelayElement->FloatAttribute("value");
 }
 
-void RainDropFactory::readUpdate(RakNet::BitStream & bs)
-{
-    int isSpawned = -1;
-    bs.Read(isSpawned);
-
-    if (isSpawned == 1)
-    {
-        STRCODE goUID = NoName;
-        bs.Read(goUID);
-
-        sf::Vector2f position;
-        bs.Read(position.x);
-        bs.Read(position.y);
-
-        // Read the Raindrop Speed
-        sf::Vector2f speed;
-        bs.Read(speed.x);
-        bs.Read(speed.y);
-
-        // Create a new RainDrop
-        Asset* asset = AssetManager::Instance().getAsset(prefabID);
-        if (asset != nullptr)
-        {
-            PrefabAsset* prefab = (PrefabAsset*)asset;
-            GameObject* go = prefab->CreatePrefab();
-
-            // Set the UID for the RainDrop
-            go->setUID(goUID);
-
-            // Set the Raindrop position
-            go->getTransform()->setPosition(position);
-
-            // Set the Raindrop Speed
-            RainDrop* rainDrop = (RainDrop*)go->GetComponentByUUID(RainDrop::getClassHashCode());
-            rainDrop->setSpeed(speed);
-        }
-    }
-}
-
-void RainDropFactory::writeUpdate(RakNet::BitStream& bs) const
-{
-    bs.Write( (int)(spawnedRainDrop != -1 ? 1 : 0) );
-    if (spawnedRainDrop != -1)
-    {
-        GameObject* go = GameObjectManager::Instance().FindGameObject(spawnedRainDrop);
-        bs.Write(go->getUID());
-        bs.Write(go->getTransform()->getPosition().x);
-        bs.Write(go->getTransform()->getPosition().y);
-
-        // Write the Raindrop Speed
-        RainDrop* rainDrop = (RainDrop*)go->GetComponentByUUID(RainDrop::getClassHashCode());
-        sf::Vector2f speed = rainDrop->getSpeed();
-        bs.Write(speed.x);
-        bs.Write(speed.y);
-    }
-}
-
 void RainDropFactory::update(float deltaTime)
 {
     Component::update(deltaTime);
@@ -96,7 +39,6 @@ void RainDropFactory::update(float deltaTime)
 
     if (enabled)
     {
-        spawnedRainDrop = -1;
         currentSpawnDelay += deltaTime;
         if (currentSpawnDelay > spawnDelay)
         {
@@ -106,7 +48,6 @@ void RainDropFactory::update(float deltaTime)
             {
                 PrefabAsset* prefab = (PrefabAsset*)asset;
                 GameObject* go = prefab->CreatePrefab();
-                spawnedRainDrop = go->getUID();
             }
         }
     }

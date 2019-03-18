@@ -20,6 +20,9 @@ public:
 
 	void setGameObject(GameObject* _gameObject) { gameObject = _gameObject; }
 
+    virtual void writeCreate(RakNet::BitStream& bs) const override {};
+    virtual void readCreate(RakNet::BitStream& bs) override {};
+
     virtual void writeUpdate(RakNet::BitStream & bs) const override {};
     virtual void readUpdate(RakNet::BitStream & bs) override {};
 

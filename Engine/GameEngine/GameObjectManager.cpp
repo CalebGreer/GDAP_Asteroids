@@ -140,6 +140,17 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLDocument* doc)
 
 	rootGameObjects.push_back(gObj);
 
+    // Send a game object create over the network
+    if (NetworkServer::Instance().isServer())
+    {
+        RakNet::BitStream bs;
+        bs.Write((unsigned char)ID_GAMEOBJECT);
+        bs.Write((unsigned char)ID_GAMEOBJECT_CREATE);
+        gObj->writeCreate(bs);
+
+        NetworkServer::Instance().sendPacket(bs);
+    }
+
 	return gObj;
 }
 
@@ -241,6 +252,18 @@ void GameObjectManager::processPacket(RakNet::BitStream& bitStream)
 
 	switch (packetId)
 	{
+        // Receive a game object create
+        case NetworkPacketIds::ID_GAMEOBJECT_CREATE:
+            {
+                GameObject* gObj = new GameObject();
+                gObj->setFileID(NoName);
+                gObj->setUID(NoName);
+                gObj->readCreate(bitStream);
+                gObj->initialize();
+                rootGameObjects.push_back(gObj);
+            }
+            break;
+
 		case NetworkPacketIds::ID_GAMEOBJECT_DESTROY:
 			{
 				STRCODE goID;
@@ -265,27 +288,5 @@ void GameObjectManager::processPacket(RakNet::BitStream& bitStream)
                 }
             }
             break;
-
-        // Removed because we do a write/read in the components through
-        // the GameObjectManager and GameObject
-
-		//case NetworkPacketIds::ID_GAMEOBJECT_COMPONENT:
-		//	{
-		//		STRCODE goID;
-		//		bitStream.Read(goID);
-
-		//		GameObject* gameObject = FindGameObject(goID);
-		//		if (gameObject != nullptr)
-		//		{
-		//			STRCODE componentID;
-		//			bitStream.Read(componentID);
-		//			Component* component = gameObject->GetComponentByUUID(componentID);
-		//			if (component != nullptr)
-		//			{
-		//				component->processPacket(bitStream);
-		//			}
-		//		}
-		//	}
-		//	break;
 	}
 }

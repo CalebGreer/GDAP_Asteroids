@@ -15,15 +15,10 @@ public:
 	virtual void update(float deltaTime);
 	virtual void load(XMLElement* element);
 
-    virtual void writeUpdate(RakNet::BitStream & bs) const override;
-    virtual void readUpdate(RakNet::BitStream & bs) override;
-
 private:
 	bool enabled = true;
 	float spawnDelay;
 	float currentSpawnDelay = 0.0f;
 	STRCODE prefabID;
-
-    STRCODE spawnedRainDrop;
 };
 

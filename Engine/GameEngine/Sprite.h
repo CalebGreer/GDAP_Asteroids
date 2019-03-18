@@ -16,6 +16,9 @@ public :
 
 	virtual void initialize();
 
+    void writeCreate(RakNet::BitStream & bs) const override;
+    void readCreate(RakNet::BitStream & bs) override;
+
 	void load(XMLElement* node);
 	void save(XMLElement* node);
 

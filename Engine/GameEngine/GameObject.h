@@ -70,6 +70,9 @@ public:
 	GameObject* getChildByName(std::string name);
 
 private:
+    virtual void writeCreate(RakNet::BitStream& bs) const;
+    virtual void readCreate(RakNet::BitStream& bs);
+
     virtual void writeUpdate(RakNet::BitStream & bs) const override;
     virtual void readUpdate(RakNet::BitStream & bs) override;
 

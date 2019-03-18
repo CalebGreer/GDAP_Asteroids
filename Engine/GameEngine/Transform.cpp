@@ -285,17 +285,41 @@ sf::Vector2f normalizeVector(sf::Vector2f vector)
 }
 
 // Networking
+void Transform::writeCreate(RakNet::BitStream & bs) const
+{
+    Component::writeCreate(bs);
+
+    bs.Write(getPosition().x);
+    bs.Write(getPosition().y);
+}
+
+void Transform::readCreate(RakNet::BitStream & bs)
+{
+    Component::readCreate(bs);
+
+    sf::Vector2f _position;
+    bs.Read(_position.x);
+    bs.Read(_position.y);
+    setPosition(_position);
+}
+
 void Transform::writeUpdate(RakNet::BitStream& bs) const
 {
+    Component::writeUpdate(bs);
+
     bs.Write(getPosition().x);
     bs.Write(getPosition().y);
 }
 
 void Transform::readUpdate(RakNet::BitStream & bs)
 {
+    Component::readUpdate(bs);
+
     sf::Vector2f _position;
     bs.Read(_position.x);
     bs.Read(_position.y);
 
     setPosition(_position);
+
+    gameObject->setTransform(this);
 }
