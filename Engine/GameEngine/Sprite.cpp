@@ -25,6 +25,23 @@ void Sprite::initialize()
 	}
 }
 
+void Sprite::writeCreate(RakNet::BitStream & bs) const
+{
+    Component::writeCreate(bs);
+
+    STRCODE textureHash = getHashCode(textureUID.c_str());
+    bs.Write(textureHash);
+}
+
+void Sprite::readCreate(RakNet::BitStream & bs)
+{
+    Component::readCreate(bs);
+
+    STRCODE textureHash;
+    bs.Read(textureHash);
+    textureAsset = AssetManager::Instance().getAsset(textureHash, TextureAsset::getClassHashCode());
+}
+
 void Sprite::render(sf::RenderWindow* window, Transform* t)
 {
 	if (renderableSprite != NULL)
