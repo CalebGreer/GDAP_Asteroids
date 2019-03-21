@@ -143,12 +143,13 @@ GameObject* GameObjectManager::CreateGameObject(tinyxml2::XMLDocument* doc)
     // Send a game object create over the network
     if (NetworkServer::Instance().isServer())
     {
-        RakNet::BitStream bs;
-        bs.Write((unsigned char)ID_GAMEOBJECT);
-        bs.Write((unsigned char)ID_GAMEOBJECT_CREATE);
-        gObj->writeCreate(bs);
+        RakNet::BitStream bitStream;
+        bitStream.Write((unsigned char)ID_GAMEOBJECT);
+        bitStream.Write((unsigned char)ID_GAMEOBJECT_CREATE);
+        bitStream.Write(gObj->getUID());
+        gObj->writeCreate(bitStream);
 
-        NetworkServer::Instance().sendPacket(bs);
+        NetworkServer::Instance().sendPacket(bitStream);
     }
 
 	return gObj;
@@ -227,6 +228,7 @@ void GameObjectManager::update(float deltaTime)
 	destroyGameObjects.clear();
 }
 
+// Networking
 
 void GameObjectManager::networkUpdate(float deltaTime)
 {
@@ -244,7 +246,42 @@ void GameObjectManager::networkUpdate(float deltaTime)
     }
 }
 
-// Networking
+void GameObjectManager::writeSnapShot(RakNet::BitStream& bitStream)
+{
+    bitStream.Write((unsigned int)rootGameObjects.size());
+
+    for (auto gameObject : rootGameObjects)
+    {
+        bitStream.Write(gameObject->getUID());
+        gameObject->writeCreate(bitStream);
+    }
+}
+
+void GameObjectManager::readSnapShot(RakNet::BitStream& bitStream)
+{
+    unsigned int count = 0;
+    bitStream.Read(count);
+
+    for (int i = 0; i < count; i++)
+    {
+        // Read the UID
+        STRCODE UID;
+        bitStream.Read(UID);
+
+        GameObject* gameObject = FindGameObject(UID);
+        if (gameObject == nullptr)
+        {
+            gameObject = new GameObject();
+            gameObject->setFileID(NoName);
+            gameObject->setUID(UID);
+            gameObject->readCreate(bitStream);
+            gameObject->initialize();
+
+            rootGameObjects.push_back(gameObject);
+        }
+    }
+}
+
 void GameObjectManager::processPacket(RakNet::BitStream& bitStream)
 {
 	unsigned char packetId;
@@ -255,12 +292,19 @@ void GameObjectManager::processPacket(RakNet::BitStream& bitStream)
         // Receive a game object create
         case NetworkPacketIds::ID_GAMEOBJECT_CREATE:
             {
-                GameObject* gObj = new GameObject();
-                gObj->setFileID(NoName);
-                gObj->setUID(NoName);
-                gObj->readCreate(bitStream);
-                gObj->initialize();
-                rootGameObjects.push_back(gObj);
+                STRCODE UID;
+                bitStream.Read(UID);
+
+                GameObject* gameObject = FindGameObject(UID);
+                if (gameObject == nullptr)
+                {
+                    gameObject = new GameObject();
+                    gameObject->setFileID(NoName);
+                    gameObject->setUID(UID);
+                    gameObject->readCreate(bitStream);
+                    gameObject->initialize();
+                    rootGameObjects.push_back(gameObject);
+                }
             }
             break;
 

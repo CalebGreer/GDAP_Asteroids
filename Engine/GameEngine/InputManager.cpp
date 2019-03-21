@@ -128,3 +128,9 @@ float InputManager::getMouseWheelTicks()
 	return false; //event not found
 }
 
+sf::Vector2f InputManager::getMousePosition()
+{
+    sf::Vector2i mousepos = sf::Mouse::getPosition(*RenderSystem::Instance().GetRenderWindow());
+    return RenderSystem::Instance().GetRenderWindow()->mapPixelToCoords(mousepos, RenderSystem::Instance().GetRenderWindow()->getView());
+}
+

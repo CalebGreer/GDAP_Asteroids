@@ -84,7 +84,8 @@ void NetworkClient::waitingForFirstPacket()
 	case ID_CONNECTION_REQUEST_ACCEPTED:
 		std::cout << "\nConnected to " << packet->systemAddress.ToString(true) << std::endl;
 		state = NetworkClient::CONNECTED;
-		break;
+        serverGUID = packet->guid;
+        break;
 
 	case ID_CONNECTION_ATTEMPT_FAILED:
 		std::cerr << "*** Connection attempt failed" << std::endl;
@@ -111,8 +112,6 @@ void NetworkClient::waitingForFirstPacket()
 		break;
 	}
 
-	serverGUID = packet->guid;
-
 	rakInterface->DeallocatePacket(packet);
 }
 
@@ -134,6 +133,10 @@ void NetworkClient::clientUpdate()
 				state = NetworkClient::NETWORK_ERROR;
 				std::cout << "Disconnected from server" << std::endl;
 				break;
+
+            case ID_SNAPSHOT:
+                GameObjectManager::Instance().readSnapShot(bs);
+                break;
 
 			case ID_GAMEOBJECT:
 				GameObjectManager::Instance().processPacket(bs);
