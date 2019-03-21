@@ -129,6 +129,10 @@ void NetworkServer::serverUpdate()
 			std::cerr << "Incomplatible protocol version from " << packet->systemAddress.ToString(true) << std::endl;
 			break;
 
+        case ID_RPC_MESSAGE:
+            GameObjectManager::Instance().invokeRPC(bs);
+            break;
+
 		default:
 			std::cout << "Oops, received an unhandled packet with id " << (unsigned)packetId << std::endl;
 			break;

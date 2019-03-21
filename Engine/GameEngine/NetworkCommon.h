@@ -20,6 +20,8 @@ enum NetworkPacketIds
     ID_GAMEOBJECT_UPDATE,
     ID_GAMEOBJECT_DESTROY,
 
+    // RPC Calls
+    ID_RPC_MESSAGE
 };
 
 #endif

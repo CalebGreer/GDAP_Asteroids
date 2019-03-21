@@ -282,6 +282,28 @@ void GameObjectManager::readSnapShot(RakNet::BitStream& bitStream)
     }
 }
 
+void GameObjectManager::invokeRPC(RakNet::BitStream& bitStream)
+{
+    STRCODE goID;
+    bitStream.Read(goID);
+
+    GameObject* gameObject = FindGameObject(goID);
+    if (gameObject != nullptr)
+    {
+        STRCODE componentId;
+        bitStream.Read(componentId);
+
+#ifdef _DEBUG
+        NetworkRPC* networkRPC = dynamic_cast<NetworkRPC*>(gameObject->GetComponentByUUID(componentId));
+#else
+        NetworkRPC* networkRPC = (NetworkRPC*)(gameObject->GetComponentByUUID(componentId));
+#endif // _DEBUG
+
+        ASSERT(networkRPC != nullptr, "Component is not a NetworkRPC");
+        networkRPC->invokeRPC(bitStream);
+    }
+}
+
 void GameObjectManager::processPacket(RakNet::BitStream& bitStream)
 {
 	unsigned char packetId;

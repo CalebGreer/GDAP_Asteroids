@@ -4,6 +4,7 @@
 
 #include "ISystem.h"
 #include "NetworkCommon.h"
+#include "NetworkRPC.h"
 
 class NetworkClient : public ISystem
 {
@@ -24,6 +25,7 @@ public:
 	}
 
 	bool isClient() { return isclient; }
+    void callRPC(RakNet::BitStream& bitStream);
 
 protected: 
 	void initialize();

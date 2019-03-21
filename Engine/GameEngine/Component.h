@@ -4,12 +4,13 @@
 
 #include "Object.h"
 #include "ISerializable.h"
+#include "NetworkRPC.h"
 #include <SFML\Graphics.hpp>
 
 class GameObject;
 class Transform;
 
-class Component : public Object, public ISerializable
+class Component : public Object, public NetworkRPC, public ISerializable
 {
 	DECLARE_ABSTRACT_DERIVED_CLASS(Component, Object)
 

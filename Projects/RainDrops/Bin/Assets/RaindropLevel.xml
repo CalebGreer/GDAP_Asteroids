@@ -35,4 +35,11 @@
 		</Components>
 	</GameObject>
 
+	<GameObject uuid="513a05a8-39e6-4f75-a0f3-6d5e2921042c" name="InputController">
+		<Components>
+			<Component class="InputController">
+			</Component>
+		</Components>
+	</GameObject>
+
 </GameObjects>

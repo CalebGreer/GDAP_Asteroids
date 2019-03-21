@@ -187,6 +187,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="mersenne.cpp" />
     <ClCompile Include="NetworkClient.cpp" />
+    <ClCompile Include="NetworkRPC.cpp" />
     <ClCompile Include="NetworkServer.cpp" />
     <ClCompile Include="PrefabAsset.cpp" />
     <ClCompile Include="Renderable.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="NetworkClient.h" />
     <ClInclude Include="NetworkCommon.h" />
+    <ClInclude Include="NetworkRPC.h" />
     <ClInclude Include="NetworkServer.h" />
     <ClInclude Include="PrefabAsset.h" />
     <ClInclude Include="randomc.h" />
