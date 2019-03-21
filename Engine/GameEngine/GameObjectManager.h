@@ -58,6 +58,7 @@ private:
     void networkUpdate(float deltaTime);
     void writeSnapShot(RakNet::BitStream& bitStream);
     void readSnapShot(RakNet::BitStream& bitStream);
+    void invokeRPC(RakNet::BitStream& bitStream);
 
 private:
 	GameObjectManager() = default;
