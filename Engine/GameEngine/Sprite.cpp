@@ -1,5 +1,6 @@
 #include "Core.h"
 #include "Sprite.h"
+#include "GameObject.h"
 #include "TextureAsset.h"
 #include "AssetManager.h"
 #include "Transform.h"
@@ -68,4 +69,13 @@ void Sprite::save(XMLElement* node)
 	textureElement->SetAttribute("uuid", textureUID.c_str());
 	node->InsertEndChild(textureElement);
 }
+
+bool Sprite::isWithinBounds(float x, float y)
+{
+    sf::FloatRect bounds = renderableSprite->getGlobalBounds();
+    bounds.left += gameObject->getTransform()->getPosition().x;
+    bounds.top += gameObject->getTransform()->getPosition().y;
+    return bounds.contains(x, y);
+}
+
 

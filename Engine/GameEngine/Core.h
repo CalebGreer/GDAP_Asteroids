@@ -2,7 +2,12 @@
 #define _CORE_H_
 #pragma once
 
+#include <SFML\Graphics.hpp>
+
+//#define NOMINMAX
 #define _WINSOCKAPI_
+
+#include <algorithm>
 
 #pragma comment(lib, "rpcrt4.lib")
 #include <windows.h>

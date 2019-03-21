@@ -23,6 +23,7 @@ public:
 	bool mouseReleased(sf::Mouse::Button);
 	bool mouseMoved();
 	float getMouseWheelTicks();
+    sf::Vector2f getMousePosition();
 
 protected: 
 	void initialize();

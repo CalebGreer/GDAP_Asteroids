@@ -56,6 +56,8 @@ private:
 	GameObject* _FindGameObject(GameObject* parent, STRCODE id);
 
     void networkUpdate(float deltaTime);
+    void writeSnapShot(RakNet::BitStream& bitStream);
+    void readSnapShot(RakNet::BitStream& bitStream);
 
 private:
 	GameObjectManager() = default;
@@ -63,6 +65,8 @@ private:
 	GameObjectManager(GameObjectManager const&) = delete;
 
 	friend class GameEngine;
+    friend class NetworkServer;
+    friend class NetworkClient;
 };
 
 #endif

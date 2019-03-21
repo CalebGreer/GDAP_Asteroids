@@ -24,6 +24,8 @@ public :
 
 	virtual void render(sf::RenderWindow* window, Transform* t) override;
 
+    bool isWithinBounds(float x, float y);
+
 protected:
 	sf::Sprite* renderableSprite;
 	Asset* textureAsset;

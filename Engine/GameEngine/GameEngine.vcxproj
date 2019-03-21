@@ -94,6 +94,8 @@
       <BrowseInformation>true</BrowseInformation>
       <AdditionalIncludeDirectories>$(ProjectDir)..\GameEngine.ExternalLibs;$(ProjectDir)..\ExternalLibs\SFML\include;$(ProjectDir)..\ExternalLibs\RakNet\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>Core.h</PrecompiledHeaderFile>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

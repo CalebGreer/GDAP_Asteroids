@@ -1,5 +1,6 @@
 #include "Core.h"
 #include "NetworkServer.h"
+#include "GameObjectManager.h"
 
 void NetworkServer::initialize()
 {
@@ -98,6 +99,13 @@ void NetworkServer::serverUpdate()
 			// Somebody connected
 			std::cout << "Got connection from " << packet->systemAddress.ToString(true) << std::endl;
 			clientConnections.push_back(packet->guid);
+
+            {
+                RakNet::BitStream bitStream;
+                bitStream.Write((unsigned char)ID_SNAPSHOT);
+                GameObjectManager::Instance().writeSnapShot(bitStream);
+                rakInterface->Send(&bitStream, MEDIUM_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, false);
+            }
 			break;
 
 		case ID_DISCONNECTION_NOTIFICATION:
