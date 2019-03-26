@@ -176,6 +176,7 @@
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioAsset.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CRtti.cpp" />
     <ClCompile Include="FontAsset.cpp" />
     <ClCompile Include="LuaState.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="AudioAsset.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="CRtti.h" />
     <ClInclude Include="FontAsset.h" />

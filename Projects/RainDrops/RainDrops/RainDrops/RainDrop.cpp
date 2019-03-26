@@ -15,8 +15,8 @@ void RainDrop::initialize()
         speed.y = (maxSpeed.y - minSpeed.y) * Random.Random();
 
         sf::Vector2f pos;
-        pos.x = RenderSystem::Instance().GetRenderWindow()->getSize().x * Random.Random();
-        pos.y = (RenderSystem::Instance().GetRenderWindow()->getSize().y * -1.0f) - 64.0f;
+        pos.x = RenderSystem::Instance().getView().getSize().x * Random.Random();
+        pos.y = (RenderSystem::Instance().getView().getSize().y * -1.0f) - 64.0f;
         gameObject->getTransform()->setPosition(pos);
     }
 }
@@ -64,7 +64,7 @@ void RainDrop::readCreate(RakNet::BitStream & bs)
 
 void RainDrop::update(float deltaTime)
 {
-    Component::update(deltaTime);
+    Sprite::update(deltaTime);
 
     if (NetworkClient::Instance().isClient() == true)
     {

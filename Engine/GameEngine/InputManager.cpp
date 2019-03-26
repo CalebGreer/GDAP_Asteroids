@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "SFML\Graphics.hpp"
 #include "RenderSystem.h"
+#include "NetworkClient.h"
 
 using namespace sf;
 
@@ -37,11 +38,14 @@ void InputManager::loadSettings()
 
 void InputManager::update(float deltaTime)
 {
-	numEvents = 0;
-	while (RenderSystem::Instance().GetRenderWindow()->pollEvent(events[numEvents]))
-	{
-		numEvents++;
-	}
+    if (NetworkClient::Instance().isClient())
+    {
+        numEvents = 0;
+        while (RenderSystem::Instance().GetRenderWindow()->pollEvent(events[numEvents]))
+        {
+            numEvents++;
+        }
+    }
 }
 
 //returns true if a key was pressed this frame
@@ -130,7 +134,15 @@ float InputManager::getMouseWheelTicks()
 
 sf::Vector2f InputManager::getMousePosition()
 {
-    sf::Vector2i mousepos = sf::Mouse::getPosition(*RenderSystem::Instance().GetRenderWindow());
-    return RenderSystem::Instance().GetRenderWindow()->mapPixelToCoords(mousepos, RenderSystem::Instance().GetRenderWindow()->getView());
+    if (NetworkClient::Instance().isClient())
+    {
+        sf::Vector2i mousepos = sf::Mouse::getPosition(*RenderSystem::Instance().GetRenderWindow());
+        sf::Vector2f mouseWorldPos = RenderSystem::Instance().GetRenderWindow()->mapPixelToCoords(mousepos, RenderSystem::Instance().getView());
+
+        return mouseWorldPos;
+    }
+
+    ASSERT(false, "Unable to get mouse position on server");
+    return sf::Vector2f();
 }
 

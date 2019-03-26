@@ -7,6 +7,7 @@
 
 class Renderable;
 class GameObject;
+class Camera;
 
 class RenderSystem : public ISystem
 {
@@ -17,13 +18,12 @@ private:
 	int width;
 	int height;
 	bool fullscreen;
-	std::string views;
-	int voriginX;
-	int voriginY;
 	sf::View view;
 
-	/// Render components
+    /// Cameras
+    std::list<Camera*> cameras;
 
+	/// Render components
 	std::list<Renderable*> renderComponents;
 
 	/// The Window
@@ -40,6 +40,9 @@ public:
 	sf::RenderWindow* GetRenderWindow() { return window; }
 
 	virtual void update(float deltaTime);
+
+    void addCamera(Camera* camera) { cameras.push_back(camera); }
+    void removeCamera(Camera* camera) { cameras.remove(camera); }
 
 protected:
 	virtual void initialize();
