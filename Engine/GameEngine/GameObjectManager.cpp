@@ -6,13 +6,15 @@
 #include "Component.h"
 #include "Sprite.h"
 #include "Transform.h"
+#include "Camera.h"
 
 void GameObjectManager::initialize()
 {
 	ISystem::initialize();
 
 	REGISTER_ABSTRACT_CLASS(Component);
-	REGISTER_DYNAMIC_CLASS(Sprite);
+    REGISTER_DYNAMIC_CLASS(Camera);
+    REGISTER_DYNAMIC_CLASS(Sprite);
 	REGISTER_DYNAMIC_CLASS(Transform);
 	REGISTER_DYNAMIC_CLASS(GameObject);
 }

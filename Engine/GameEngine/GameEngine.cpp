@@ -38,12 +38,12 @@ void GameEngine::initialize()
 void GameEngine::GameLoop()
 {
 	float gameTime = 0.0f;
-	clock_t _time;
+	clock_t _startTime;
 	float deltaTime = 0.0f;
 
 	while (true)
 	{
-		_time = clock();
+        _startTime = clock();
 
 		NetworkClient::Instance().update(deltaTime);
 		NetworkServer::Instance().update(deltaTime);
@@ -68,11 +68,22 @@ void GameEngine::GameLoop()
 
 		RenderSystem::Instance().update(deltaTime);
 
-		_time = clock() - _time;
-		deltaTime = ((float)_time) / ((clock_t)1000);
+        // Its not pretty but hey we need it. When running the server we run too fast.... that means we don't get updates
+        // but also we are sending a lot to the clients (we will fix this later).
+        // For now we will assume that if the server is running faster than 60fps we will stall. When we actually have a render
+        // window we are locked to 60fps because of SFML but the server doesn't have a window and we need to manually do some sleeping
+		clock_t _time = clock() - _startTime;
+        if (NetworkServer::Instance().isServer() && _time < 16)
+        {
+            int sleepTime = 16 - _time;
+            std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+        }
+
+        _time = clock() - _startTime;
+        deltaTime = ((float)_time) / ((clock_t)1000);
 		gameTime += deltaTime;
 
-		LOG("Current Game Time: " << gameTime << " Delta Time: " << deltaTime);
+        LOG("Current Game Time: " << gameTime << " Delta Time: " << deltaTime);
 	}
 }
 
