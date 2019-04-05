@@ -189,7 +189,7 @@ void GameObjectManager::DestroyGameObject(GameObject* go)
 {
     if (NetworkServer::Instance().isServer())
     {
-        // Write the code to destroy the raindrop
+        // Write the code to destroy the asteroid
         RakNet::BitStream bs;
         bs.Write((unsigned char)ID_GAMEOBJECT);
         bs.Write((unsigned char)ID_GAMEOBJECT_DESTROY);
