@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Files>
+</Files>
+<Assets>
+	<!-- Texture Asset -->	
+	<Asset>Assets/Asteroid.png</Asset>
+	<Asset>Assets/background_image.png</Asset>
+	
+	<!-- Prefab Example!! -->	
+	<Asset>Assets/AsteroidPrefab.xml</Asset>
+</Assets>
+<GameObjects>
+	<GameObject uuid="7f95b98e-d0ad-4f26-a885-db6121ef0a67" name="Background">
+		<Components>
+			<Component class="Transform">
+				<Position x="400" y="-300"/>
+				<Rotation a="0"/>
+				<Scale x="3.25" y="3.25"/>
+			</Component>	
+			<Component class="Background">
+				<TextureUID uuid="3b9bde9e-9f0e-43b2-8588-1b58b5283c17" />
+			</Component>	
+		</Components>
+	</GameObject>
+	<GameObject uuid="5496f9b4-6c71-4a48-92a7-e632d3dcccea" name="Camera">
+		<Components>
+			<Component class="Camera">
+				<Priority value="1" />
+				<View x="400" y="-300" width="800" height="600" />
+			</Component>
+		</Components>
+	</GameObject>
+
+	<GameObject uuid="dd5c236c-5ab3-4632-82e1-a2a6175f2b45" name="AsteroidFactory">
+		<Components>
+			<Component class="AsteroidFactory">
+				<PrefabAsset>9930f483-8b0b-4d7e-ae1f-c55f641000ac</PrefabAsset>
+				<SpawnDelay value="1" />
+			</Component>
+		</Components>
+	</GameObject>
+
+	<GameObject uuid="513a05a8-39e6-4f75-a0f3-6d5e2921042c" name="InputController">
+		<Components>
+			<Component class="InputController">
+			</Component>
+		</Components>
+	</GameObject>
+
+</GameObjects>
