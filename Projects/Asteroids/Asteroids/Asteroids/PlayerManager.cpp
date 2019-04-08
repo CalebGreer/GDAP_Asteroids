@@ -1,27 +1,39 @@
 #include "GameCore.h"
 #include "PlayerManager.h"
-#include "InputManager.h"
-#include "AssetManager.h"
 #include "PrefabAsset.h"
-#include "Transform.h"
 
-IMPLEMENT_DYNAMIC_CLASS(PlayerManager);
+IMPLEMENT_DYNAMIC_CLASS(PlayerManager); 
+
+using namespace std::placeholders;
+
+void PlayerManager::initialize()
+{ 
+	Component::initialize();
+
+    registerRPC(getHashCode("rpcConnected"), std::bind(&PlayerManager::rpcConnected, this, _1)); 
+
+	if(NetworkClient::Instance().isClient())
+	{ 
+        RakNet::BitStream bitStream;
+        bitStream.Write((unsigned char)ID_RPC_MESSAGE);
+        bitStream.Write(gameObject->getUID());
+        bitStream.Write(PlayerManager::getClassHashCode());
+        bitStream.Write(getHashCode("rpcConnected"));
+
+		bitStream.Write(spawning = true);
+        NetworkClient::Instance().callRPC(bitStream); 
+	}
+}
 
 void PlayerManager::update(float deltaTime)
 {
+	Component::update(deltaTime); 
 
-	Component::update(deltaTime);
-
-	if (!started && NetworkServer::Instance().isServer())
+	if (spawning && NetworkServer::Instance().isServer())
 	{
-		Asset* asset = AssetManager::Instance().getAsset(prefabID);
-		if (asset != nullptr)
-		{
-			PrefabAsset* prefab = (PrefabAsset*)asset;
-			GameObject* go = prefab->CreatePrefab();
-		}
-
-		started = true;
+		spawning = false;
+		counter++;
+		CreatePlayer();
 	}
 }
 
@@ -33,4 +45,20 @@ void PlayerManager::load(XMLElement * element)
 	THROW_RUNTIME_ERROR(prefabElement == nullptr, "No PrefabAsset element");
 	const char* id = prefabElement->GetText();
 	prefabID = getHashCode(id);
-} 
+}
+
+void PlayerManager::CreatePlayer()
+{
+	Asset* asset = AssetManager::Instance().getAsset(prefabID);
+	if (asset != nullptr)
+	{
+		PrefabAsset* prefab = (PrefabAsset*)asset;
+		GameObject* go = prefab->CreatePrefab();
+	}
+}
+
+void PlayerManager::rpcConnected(RakNet::BitStream& bitStream)
+{
+	bitStream.Read(spawning);
+}
+

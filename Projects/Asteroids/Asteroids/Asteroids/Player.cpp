@@ -11,10 +11,14 @@ void Player::initialize()
 {
 	Sprite::initialize();
 
-	position = sf::Vector2f(400.0f, -300.0f);
-	gameObject->getTransform()->setPosition(position);
+	if (NetworkServer::Instance().isServer())
+	{
+		position = sf::Vector2f(400.0f, -300.0f);
+		gameObject->getTransform()->setPosition(position);
 
-    registerRPC(getHashCode("rpcCall"), std::bind(&Player::rpcCall, this, _1));
+	}
+
+	registerRPC(getHashCode("rpcCall"), std::bind(&Player::rpcCall, this, _1));
 }
 
 void Player::update(float deltaTime)
@@ -27,37 +31,28 @@ void Player::update(float deltaTime)
 	}
 
 	if (InputManager::Instance().keyPressed(sf::Keyboard::A))
-	{
+	{ 
 		velocity.x = -speed.x * deltaTime;
-		RakNet::BitStream bitStream;
-		bitStream.Write((unsigned char)ID_RPC_MESSAGE);
-		bitStream.Write(gameObject->getUID());
-		bitStream.Write(Player::getClassHashCode());
-		bitStream.Write(getHashCode("rpcCall"));
-
-		bitStream.Write(velocity.x);
-		bitStream.Write(velocity.y);
-
-		NetworkClient::Instance().callRPC(bitStream);
+		InputUpdate();
 	}
 
 	if (InputManager::Instance().keyPressed(sf::Keyboard::D))
 	{
 		velocity.x = speed.x * deltaTime;
+		InputUpdate();
 	}
 
 	if (InputManager::Instance().keyPressed(sf::Keyboard::S))
 	{
 		velocity.y = speed.y * deltaTime;
+		InputUpdate();
 	}
 
 	if (InputManager::Instance().keyPressed(sf::Keyboard::W))
 	{
 		velocity.y = -speed.y * deltaTime;
-	}
-
-
-	//gameObject->getTransform()->move(velocity);
+		InputUpdate();
+	} 
 
 	velocity = sf::Vector2f(0, 0);
 }
@@ -89,23 +84,33 @@ void Player::readCreate(RakNet::BitStream & bs)
 
 void Player::rpcCall(RakNet::BitStream& bitStream)
 {
-    sf::Vector2f v;
-    bitStream.Read(v.x);
-    bitStream.Read(v.y);
+	sf::Vector2f v;
+	bitStream.Read(v.x);
+	bitStream.Read(v.y);
 
-    auto gameObjects = GameObjectManager::Instance().GetAllRootGameObjects();
-    for (auto gameObject : gameObjects)
-    {
+	auto gameObjects = GameObjectManager::Instance().GetAllRootGameObjects();
+	for (auto gameObject : gameObjects)
+	{
 		Player* p = dynamic_cast<Player*>(
-                             gameObject->GetComponentByUUID(Player::getClassHashCode()));
+			gameObject->GetComponentByUUID(Player::getClassHashCode()));
 
-        if (p == this)
-        {
-			p->gameObject->getTransform()->move(velocity);
-        }
-    }
-}
+		if (p == this)
+		{
+			p->gameObject->getTransform()->move(v);
+		}
+	}
+} 
 
 void Player::InputUpdate()
 {
+	RakNet::BitStream bitStream;
+	bitStream.Write((unsigned char)ID_RPC_MESSAGE);
+	bitStream.Write(gameObject->getUID());
+	bitStream.Write(Player::getClassHashCode());
+	bitStream.Write(getHashCode("rpcCall"));
+
+	bitStream.Write(velocity.x);
+	bitStream.Write(velocity.y);
+
+	NetworkClient::Instance().callRPC(bitStream);
 }

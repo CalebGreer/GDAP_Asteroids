@@ -12,9 +12,9 @@ int main()
 	// Register all custom components here
 	REGISTER_DYNAMIC_CLASS(AsteroidFactory);
     REGISTER_DYNAMIC_CLASS(Asteroid);
+    REGISTER_DYNAMIC_CLASS(InputController);
     REGISTER_DYNAMIC_CLASS(PlayerManager);
     REGISTER_DYNAMIC_CLASS(Player);
-    REGISTER_DYNAMIC_CLASS(InputController);
 	
 	GameEngine::Instance().initialize();
 

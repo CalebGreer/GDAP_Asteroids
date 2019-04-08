@@ -14,7 +14,7 @@ public:
 
 	void writeCreate(RakNet::BitStream & bs) const override;
 	void readCreate(RakNet::BitStream & bs) override;
-	void rpcCall(RakNet::BitStream & bitStream); 
+	void rpcCall(RakNet::BitStream & bitStream);
 
 	const sf::Vector2f& getSpeed() const { return speed; }
 
