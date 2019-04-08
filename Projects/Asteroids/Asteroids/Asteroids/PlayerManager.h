@@ -19,6 +19,7 @@ public:
 private:
 	STRCODE prefabID;
 	bool spawning = false; 
+	bool spawned = false; 
 
 	int counter = 0;
 };
