@@ -14,12 +14,19 @@ public:
 
 	void writeCreate(RakNet::BitStream & bs) const override;
 	void readCreate(RakNet::BitStream & bs) override;
+	void rpcCall(RakNet::BitStream & bitStream); 
 
 	const sf::Vector2f& getSpeed() const { return speed; }
-	void setSpeed(const sf::Vector2f& _speed) { speed = _speed; }
+
+	const sf::Vector2f& getVelocity() const { return velocity; }
+	void setVelocity(const sf::Vector2f& _velocity) { velocity = _velocity; } 
+
+private:
+	void InputUpdate();
 
 private:
 	sf::Vector2f speed;
-	sf::Vector2f *position;
+	sf::Vector2f position;
+	sf::Vector2f velocity;
 };
 

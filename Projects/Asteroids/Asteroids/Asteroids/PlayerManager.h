@@ -6,14 +6,12 @@
 class PlayerManager : public Component
 {
 	DECLARE_DYNAMIC_DERIVED_CLASS(PlayerManager, Component)
-
+ 
 public:
 	virtual void update(float deltaTime);
-	virtual void load(XMLElement* element);
+	virtual void load(XMLElement* element); 
 
-private: 
+private:
 	STRCODE prefabID;
-	bool started = false;
-
-	std::list<GameObject *> players;
-}; 
+	bool started = false; 
+};

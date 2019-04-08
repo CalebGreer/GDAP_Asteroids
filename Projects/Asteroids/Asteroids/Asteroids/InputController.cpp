@@ -1,6 +1,7 @@
 #include "GameCore.h"
 #include "InputController.h"
 #include "Asteroid.h"
+#include "Player.h"
 
 IMPLEMENT_DYNAMIC_CLASS(InputController)
 
