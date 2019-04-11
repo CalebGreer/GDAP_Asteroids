@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "PrefabAsset.h"
 #include "Transform.h"
+#include "Asteroid.h"
 
 IMPLEMENT_DYNAMIC_CLASS(Player)
 
@@ -27,34 +28,54 @@ void Player::update(float deltaTime)
 
 	if (NetworkServer::Instance().isServer())
 	{
-		return;
+		// Check for collision with Player TODO: FIX, Causes a transform crash
+		auto gameObjects = GameObjectManager::Instance().GetAllRootGameObjects();
+		for (auto gameObject : gameObjects)
+		{
+			Asteroid* asteroid = dynamic_cast<Asteroid*>(
+				gameObject->GetComponentByUUID(Asteroid::getClassHashCode()));
+
+			if (asteroid != nullptr)
+			{
+				sf::Vector2f tempPos = this->gameObject->getTransform()->getPosition();
+				if (asteroid->isWithinBounds(tempPos.x, tempPos.y))
+				{
+					GameObjectManager::Instance().DestroyGameObject(gameObject);
+					GameObjectManager::Instance().DestroyGameObject(this->gameObject);
+					break;
+				}
+			}
+		}
 	}
 
-	if (InputManager::Instance().keyPressed(sf::Keyboard::A))
-	{ 
-		velocity.x = -speed.x * deltaTime;
-		InputUpdate();
-	}
-
-	if (InputManager::Instance().keyPressed(sf::Keyboard::D))
+	if (NetworkClient::Instance().isClient())
 	{
-		velocity.x = speed.x * deltaTime;
-		InputUpdate();
+		if (InputManager::Instance().keyPressed(sf::Keyboard::A))
+		{
+			velocity.x = -speed.x * deltaTime;
+			InputUpdate();
+		}
+
+		if (InputManager::Instance().keyPressed(sf::Keyboard::D))
+		{
+			velocity.x = speed.x * deltaTime;
+			InputUpdate();
+		}
+
+		if (InputManager::Instance().keyPressed(sf::Keyboard::S))
+		{
+			velocity.y = speed.y * deltaTime;
+			InputUpdate();
+		}
+
+		if (InputManager::Instance().keyPressed(sf::Keyboard::W))
+		{
+			velocity.y = -speed.y * deltaTime;
+			InputUpdate();
+		}
+
+		velocity = sf::Vector2f(0, 0);
 	}
-
-	if (InputManager::Instance().keyPressed(sf::Keyboard::S))
-	{
-		velocity.y = speed.y * deltaTime;
-		InputUpdate();
-	}
-
-	if (InputManager::Instance().keyPressed(sf::Keyboard::W))
-	{
-		velocity.y = -speed.y * deltaTime;
-		InputUpdate();
-	} 
-
-	velocity = sf::Vector2f(0, 0);
 }
 
 void Player::load(XMLElement * element)

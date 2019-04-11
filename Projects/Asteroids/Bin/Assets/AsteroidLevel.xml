@@ -6,10 +6,12 @@
 	<Asset>Assets/Asteroid.png</Asset>
 	<Asset>Assets/PlayerShip_Blue.png</Asset>
 	<Asset>Assets/background_image.png</Asset>
+	<Asset>Assets/Laser_blue.png</Asset>
 	
 	<!-- Prefab Example!! -->	
 	<Asset>Assets/AsteroidPrefab.xml</Asset>
 	<Asset>Assets/PlayerShipPrefab.xml</Asset>
+	<Asset>Assets/LaserPrefab.xml</Asset>
 </Assets>
 <GameObjects>
 
@@ -48,6 +50,14 @@
     <Components>
       <Component class="PlayerManager">
         <PrefabAsset>ad357532-2b22-4f3d-a48d-4049e65f94d7</PrefabAsset>
+      </Component>
+    </Components>
+  </GameObject>
+
+	  <GameObject uuid="8fe36dad-cb61-43ac-9f8f-698a92fec904" name="LaserFactory">
+    <Components>
+      <Component class="LaserFactory">
+        <PrefabAsset>95ccb62e-f7ad-4bcf-8c06-5792bc65fd61</PrefabAsset>
       </Component>
     </Components>
   </GameObject>

@@ -2,6 +2,7 @@
 #include "Asteroid.h"
 #include "PrefabAsset.h"
 #include "Transform.h"
+#include "Player.h"
 
 IMPLEMENT_DYNAMIC_CLASS(Asteroid)
 
@@ -79,4 +80,5 @@ void Asteroid::update(float deltaTime)
 	{
 		GameObjectManager::Instance().DestroyGameObject(gameObject);
 	}
+
 }
