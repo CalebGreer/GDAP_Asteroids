@@ -50,7 +50,11 @@ void Laser::update(float deltaTime)
 			sf::Vector2f tempPos = this->gameObject->getTransform()->getPosition();
 			if (asteroid->isWithinBounds(tempPos.x, tempPos.y))
 			{
-				GameObjectManager::Instance().DestroyGameObject(gameObject);
+				asteroid->takeDamage();
+				if (asteroid->getHealth() <= 0)
+				{
+					GameObjectManager::Instance().DestroyGameObject(gameObject);
+				}
 				GameObjectManager::Instance().DestroyGameObject(this->gameObject);
 				break;
 			}
