@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<GameObject uuid="06b13da2-d65e-4c3d-b23e-db798f271265" name="Player">
+<GameObject uuid="9c0f9807-c28f-4ca1-be04-ceef96708e0d" name="Player">
 	<Components>
 		<Component class="Transform">
 			<Position x="200" y="-200"/>
@@ -7,9 +7,9 @@
 			<Scale x="1" y="1"/>
 		</Component>	
 		<Component class="Player">
-			<TextureUID uuid="86b60cad-b89f-49f1-8536-4d293e0aa503" />
+			<TextureUID uuid="5be0f356-484a-4298-8633-6a4d16ebab1e" />
       <Speed x="100" y="100" />
-      <ID value="1" />
+      <ID value="2" />
 		</Component>	
 	</Components>
 </GameObject>

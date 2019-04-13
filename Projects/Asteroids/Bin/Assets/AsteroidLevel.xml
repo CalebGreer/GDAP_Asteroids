@@ -5,12 +5,14 @@
 	<!-- Texture Asset -->	
 	<Asset>Assets/Asteroid.png</Asset>
 	<Asset>Assets/PlayerShip_Blue.png</Asset>
+	<Asset>Assets/PlayerShip_Green.png</Asset>
 	<Asset>Assets/background_image.png</Asset>
 	<Asset>Assets/Laser_blue.png</Asset>
 	
 	<!-- Prefab Example!! -->	
 	<Asset>Assets/AsteroidPrefab.xml</Asset>
 	<Asset>Assets/PlayerShipPrefab.xml</Asset>
+	<Asset>Assets/PlayerShipPrefabGreen.xml</Asset>
 	<Asset>Assets/LaserPrefab.xml</Asset>
 </Assets>
 <GameObjects>
@@ -46,10 +48,12 @@
 		</Components>
 	</GameObject>
 
+<!--Ships-->
   <GameObject uuid="0b9e7fbe-4868-4b87-b091-21546ee9664a" name="PlayerManager">
     <Components>
       <Component class="PlayerManager">
         <PrefabAsset>ad357532-2b22-4f3d-a48d-4049e65f94d7</PrefabAsset>
+        <PrefabAsset>d3e2c2e8-d6ac-420d-89fe-b213488bf4de</PrefabAsset>
       </Component>
     </Components>
   </GameObject>

@@ -14,7 +14,11 @@ public:
 
 	void CreatePlayer();
 
+	void assignPlayer(GameObject * gObj);
+
 	void rpcConnected(RakNet::BitStream & bitStream);
+
+	STRCODE prefabCode [2];
 
 private:
 	STRCODE prefabID;

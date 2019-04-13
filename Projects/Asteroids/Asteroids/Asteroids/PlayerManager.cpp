@@ -20,7 +20,6 @@ void PlayerManager::update(float deltaTime)
 	if (spawning && NetworkServer::Instance().isServer())
 	{
 		spawning = false;
-		counter++;
 		CreatePlayer();
 	}
 
@@ -37,7 +36,7 @@ void PlayerManager::update(float deltaTime)
 
 			bitStream.Write(spawning = true);
 			NetworkClient::Instance().callRPC(bitStream);
-		}
+		} 
 	}
 }
 
@@ -48,21 +47,39 @@ void PlayerManager::load(XMLElement * element)
 	tinyxml2::XMLElement* prefabElement = element->FirstChildElement("PrefabAsset");
 	THROW_RUNTIME_ERROR(prefabElement == nullptr, "No PrefabAsset element");
 	const char* id = prefabElement->GetText();
-	prefabID = getHashCode(id);
+	prefabCode[0] = getHashCode(id);
+
+	prefabElement = prefabElement->NextSiblingElement("PrefabAsset");
+	THROW_RUNTIME_ERROR(prefabElement == nullptr, "No PrefabAsset element");
+	const char* id2 = prefabElement->GetText();
+	prefabCode[1] = getHashCode(id2);
 }
 
 void PlayerManager::CreatePlayer()
 {
-	Asset* asset = AssetManager::Instance().getAsset(prefabID);
+	Asset* asset = AssetManager::Instance().getAsset(prefabCode[counter]);
 	if (asset != nullptr)
 	{
 		PrefabAsset* prefab = (PrefabAsset*)asset;
-		GameObject* go = prefab->CreatePrefab();
+		GameObject* go = prefab->CreatePrefab(); 
+
+		counter++; 
 	}
+}
+
+void PlayerManager::assignPlayer(GameObject* gObj)
+{
+	RakNet::BitStream bitStream;
+	bitStream.Write((unsigned char)ID_RPC_MESSAGE);
+	bitStream.Write(gameObject->getUID());
+	bitStream.Write(PlayerManager::getClassHashCode());
+	bitStream.Write(getHashCode("rpcRegisterPlayer"));
+
+	bitStream.Write(gObj->getUID());
+	NetworkClient::Instance().callRPC(bitStream);
 }
 
 void PlayerManager::rpcConnected(RakNet::BitStream& bitStream)
 {
 	bitStream.Read(spawning);
 }
-

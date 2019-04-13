@@ -14,19 +14,27 @@ public:
 
 	void writeCreate(RakNet::BitStream & bs) const override;
 	void readCreate(RakNet::BitStream & bs) override;
-	void rpcCall(RakNet::BitStream & bitStream);
+
+	void assignPlayer();
+
 
 	const sf::Vector2f& getSpeed() const { return speed; }
 
 	const sf::Vector2f& getVelocity() const { return velocity; }
-	void setVelocity(const sf::Vector2f& _velocity) { velocity = _velocity; } 
+	void setVelocity(sf::Vector2f _velocity) { velocity = _velocity; } 
+	void setVelocityX(int x) { velocity.x = x; } 
+	void setVelocityY(int y) { velocity.y = y; } 
 
-private:
-	void InputUpdate();
+	STRCODE getId() const { return playerID; }
+	void setId(int ID) { playerID = ID; } 
 
 private:
 	sf::Vector2f speed;
 	sf::Vector2f position;
 	sf::Vector2f velocity;
+
+	STRCODE playerID = NoName;
+
+	bool hasInput = false;
 };
 
