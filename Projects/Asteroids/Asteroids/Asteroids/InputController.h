@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include "Player.h"
 #include <SFML\System.hpp>
 
 class InputController : public Component
@@ -12,5 +13,16 @@ public:
     void update(float deltaTime) override;
 
     void rpcCallback(RakNet::BitStream& bitStream);
+
+	void rpcMove(RakNet::BitStream & bitStream);
+
+	void setPlayer(Player * player) { this->player = player; } 
+
+	void sendVelocity();
+
+	void ProcessInput(float deltaTime);
+
+private:
+	Player* player;
 };
 

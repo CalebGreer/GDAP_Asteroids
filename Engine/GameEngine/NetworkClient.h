@@ -27,6 +27,8 @@ public:
 	bool isClient() { return isclient; }
     void callRPC(RakNet::BitStream& bitStream);
 
+	NetworkClientState getState() const { return state; }
+
 protected: 
 	void initialize();
 	void update(float deltaTime);

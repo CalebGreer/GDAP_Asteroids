@@ -4,12 +4,19 @@
 <Assets>
 	<!-- Texture Asset -->	
 	<Asset>Assets/Asteroid.png</Asset>
+	<Asset>Assets/PlayerShip_Blue.png</Asset>
+	<Asset>Assets/PlayerShip_Green.png</Asset>
 	<Asset>Assets/background_image.png</Asset>
+	<Asset>Assets/Laser_blue.png</Asset>
 	
 	<!-- Prefab Example!! -->	
 	<Asset>Assets/AsteroidPrefab.xml</Asset>
+	<Asset>Assets/PlayerShipPrefab.xml</Asset>
+	<Asset>Assets/PlayerShipPrefabGreen.xml</Asset>
+	<Asset>Assets/LaserPrefab.xml</Asset>
 </Assets>
 <GameObjects>
+
 	<GameObject uuid="7f95b98e-d0ad-4f26-a885-db6121ef0a67" name="Background">
 		<Components>
 			<Component class="Transform">
@@ -22,6 +29,7 @@
 			</Component>	
 		</Components>
 	</GameObject>
+
 	<GameObject uuid="5496f9b4-6c71-4a48-92a7-e632d3dcccea" name="Camera">
 		<Components>
 			<Component class="Camera">
@@ -40,11 +48,29 @@
 		</Components>
 	</GameObject>
 
+<!--Ships-->
+  <GameObject uuid="0b9e7fbe-4868-4b87-b091-21546ee9664a" name="PlayerManager">
+    <Components>
+      <Component class="PlayerManager">
+        <PrefabAsset>ad357532-2b22-4f3d-a48d-4049e65f94d7</PrefabAsset>
+        <PrefabAsset>d3e2c2e8-d6ac-420d-89fe-b213488bf4de</PrefabAsset>
+      </Component>
+    </Components>
+  </GameObject>
+
+	  <GameObject uuid="8fe36dad-cb61-43ac-9f8f-698a92fec904" name="LaserFactory">
+    <Components>
+      <Component class="LaserFactory">
+        <PrefabAsset>95ccb62e-f7ad-4bcf-8c06-5792bc65fd61</PrefabAsset>
+      </Component>
+    </Components>
+  </GameObject>
+
 	<GameObject uuid="513a05a8-39e6-4f75-a0f3-6d5e2921042c" name="InputController">
 		<Components>
 			<Component class="InputController">
 			</Component>
-		</Components>
-	</GameObject>
+    </Components>
+  </GameObject> 
 
 </GameObjects>

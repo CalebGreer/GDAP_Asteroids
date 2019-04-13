@@ -2,6 +2,7 @@
 #include "Asteroid.h"
 #include "PrefabAsset.h"
 #include "Transform.h"
+#include "Player.h"
 
 IMPLEMENT_DYNAMIC_CLASS(Asteroid)
 
@@ -13,6 +14,9 @@ void Asteroid::initialize()
 	{
 		speed.x = (maxSpeed.x - minSpeed.x) * Random.Random();
 		speed.y = (maxSpeed.y - minSpeed.y) * Random.Random();
+
+		srand(time(0));
+		Health = rand() % maxHealth + minHealth;
 
 		sf::Vector2f pos;
 		pos.x = RenderSystem::Instance().getView().getSize().x * Random.Random();
@@ -32,6 +36,14 @@ void Asteroid::load(XMLElement* element)
 	XMLElement* maxElement = element->FirstChildElement("MaxSpeed");
 	THROW_RUNTIME_ERROR(maxElement == nullptr, "No Max Element");
 	maxSpeed = sf::Vector2f(maxElement->FloatAttribute("x"), maxElement->FloatAttribute("y"));
+
+	XMLElement* minHealthElement = element->FirstChildElement("MinHealth");
+	THROW_RUNTIME_ERROR(minHealthElement == nullptr, "No MinHealth Element");
+	minHealth = minHealthElement->IntAttribute("min");
+
+	XMLElement* maxHealthElement = element->FirstChildElement("MaxHealth");
+	THROW_RUNTIME_ERROR(maxHealthElement == nullptr, "No MaxHealth Element");
+	maxHealth = maxHealthElement->IntAttribute("max");
 }
 
 void Asteroid::writeCreate(RakNet::BitStream & bs) const
@@ -46,6 +58,8 @@ void Asteroid::writeCreate(RakNet::BitStream & bs) const
 
 	bs.Write(speed.x);
 	bs.Write(speed.y);
+
+	bs.Write(Health);
 }
 
 void Asteroid::readCreate(RakNet::BitStream & bs)
@@ -60,6 +74,13 @@ void Asteroid::readCreate(RakNet::BitStream & bs)
 
 	bs.Read(speed.x);
 	bs.Read(speed.y);
+
+	bs.Read(Health);
+}
+
+void Asteroid::takeDamage()
+{
+	Health--;
 }
 
 void Asteroid::update(float deltaTime)
@@ -79,4 +100,5 @@ void Asteroid::update(float deltaTime)
 	{
 		GameObjectManager::Instance().DestroyGameObject(gameObject);
 	}
+
 }

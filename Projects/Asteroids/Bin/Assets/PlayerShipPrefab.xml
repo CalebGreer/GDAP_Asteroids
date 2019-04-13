@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<GameObject uuid="06b13da2-d65e-4c3d-b23e-db798f271265" name="Player">
+	<Components>
+		<Component class="Transform">
+			<Position x="200" y="-200"/>
+			<Rotation a="0"/>
+			<Scale x="1" y="1"/>
+		</Component>	
+		<Component class="Player">
+			<TextureUID uuid="86b60cad-b89f-49f1-8536-4d293e0aa503" />
+      <Speed x="100" y="100" />
+      <ID value="1" />
+		</Component>	
+	</Components>
+</GameObject>
