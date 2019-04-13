@@ -23,33 +23,6 @@ void InputController::update(float deltaTime)
 		return;
 	} 
 
-	if (InputManager::Instance().keyPressed(sf::Keyboard::A))
-	{
-		player->setVelocityX(-player->getSpeed().x * deltaTime);
-		sendVelocity();
-	}
-
-	if (InputManager::Instance().keyPressed(sf::Keyboard::D))
-	{
-		player->setVelocityX(player->getSpeed().x * deltaTime);
-		sendVelocity();
-	}
-
-	if (InputManager::Instance().keyPressed(sf::Keyboard::S))
-	{
-		player->setVelocityY(player->getSpeed().y * deltaTime);
-		sendVelocity();
-	}
-
-	if (InputManager::Instance().keyPressed(sf::Keyboard::W))
-	{
-		player->setVelocityY(-player->getSpeed().y * deltaTime);
-		sendVelocity();
-	}
-
-	//player->setVelocity(sf::Vector2f(0, 0));
-
-
 	if (InputManager::Instance().mousePressed(sf::Mouse::Left))
 	{
 		RakNet::BitStream bitStream;
@@ -126,4 +99,51 @@ void InputController::sendVelocity()
 	bitStream.Write(player->getVelocity().y);
 
 	NetworkClient::Instance().callRPC(bitStream);
+}
+
+void InputController::ProcessInput(float deltaTime)
+{
+	if (InputManager::Instance().keyPressed(sf::Keyboard::A))
+	{
+		player->setVelocityX(-player->getSpeed().x * deltaTime);
+		sendVelocity();
+	}
+	else if (InputManager::Instance().keyReleased(sf::Keyboard::A))
+	{
+		player->setVelocityY(0);
+		sendVelocity();
+	}
+
+	if (InputManager::Instance().keyPressed(sf::Keyboard::D))
+	{
+		player->setVelocityX(player->getSpeed().x * deltaTime);
+		sendVelocity();
+	}
+	else if (InputManager::Instance().keyReleased(sf::Keyboard::D))
+	{
+		player->setVelocityY(0);
+		sendVelocity();
+	}
+
+	if (InputManager::Instance().keyPressed(sf::Keyboard::S))
+	{
+		player->setVelocityY(player->getSpeed().y * deltaTime);
+		sendVelocity();
+	}
+	else if (InputManager::Instance().keyReleased(sf::Keyboard::S))
+	{
+		player->setVelocityY(0);
+		sendVelocity();
+	}
+
+	if (InputManager::Instance().keyPressed(sf::Keyboard::W))
+	{
+		player->setVelocityY(-player->getSpeed().y * deltaTime);
+		sendVelocity();
+	}
+	else if (InputManager::Instance().keyReleased(sf::Keyboard::W))
+	{
+		player->setVelocityY(0);
+		sendVelocity();
+	}
 }

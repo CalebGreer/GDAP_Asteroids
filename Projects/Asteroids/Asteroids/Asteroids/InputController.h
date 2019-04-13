@@ -20,6 +20,8 @@ public:
 
 	void sendVelocity();
 
+	void ProcessInput(float deltaTime);
+
 private:
 	Player* player;
 };

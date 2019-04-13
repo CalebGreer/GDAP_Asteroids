@@ -35,16 +35,16 @@ void Player::update(float deltaTime)
 			Asteroid* asteroid = dynamic_cast<Asteroid*>(
 				gameObject->GetComponentByUUID(Asteroid::getClassHashCode()));
 
-			//	if (asteroid != nullptr)
-			//	{
-			//		sf::Vector2f tempPos = this->gameObject->getTransform()->getPosition();
-			//		if (asteroid->isWithinBounds(tempPos.x, tempPos.y))
-			//		{
-			//			GameObjectManager::Instance().DestroyGameObject(gameObject);
-			//			GameObjectManager::Instance().DestroyGameObject(this->gameObject);
-			//			break;
-			//		}
-			//	}
+				if (asteroid != nullptr)
+				{
+					sf::Vector2f tempPos = this->gameObject->getTransform()->getPosition();
+					if (asteroid->isWithinBounds(tempPos.x, tempPos.y))
+					{
+						GameObjectManager::Instance().DestroyGameObject(gameObject);
+						GameObjectManager::Instance().DestroyGameObject(this->gameObject);
+						break;
+					}
+				}
 		}
 
 		gameObject->getTransform()->move(velocity);

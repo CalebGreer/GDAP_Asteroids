@@ -157,6 +157,8 @@
     <ClCompile Include="AsteroidFactory.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="InputController.cpp" />
+    <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="LaserFactory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
@@ -167,6 +169,8 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="GameCore.h" />
     <ClInclude Include="InputController.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="LaserFactory.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />
   </ItemGroup>
